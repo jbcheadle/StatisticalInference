@@ -1,0 +1,55 @@
+---
+title: "Part 2 Basic Inferential Data Analysis"
+author: "John B Cheadle"
+date: "August 10, 2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(datasets)
+```
+
+
+## Overview
+This report describes analysis of the ToothGrowth data in the R datasets package.  Here we load and summarize the data using basic exploratory analysis, then compare tooth growth by supp and dose using confidence intervals and hypothesis tests.  
+
+*Did the student perform some relevant confidence intervals and/or tests?
+
+*Were the results of the tests and/or intervals interpreted in the context of the problem correctly?
+
+*Did the student describe the assumptions needed for their conclusions?
+
+## ToothGrowth Data
+We load the ToothGrowth data frame from the R datasets package and explore some of its characteristics.
+```{r tg_data, echo=TRUE}
+tg <- ToothGrowth
+dim(tg)
+head(tg)
+```
+Briefly it appears that there are two supplements (supp), 'VC" and "OJ', with doses of 0.5, 1.0, and 2.0 for each.  'len' looks to be a measurement of tooth growth length for each of these groups.
+
+```{r tg_plots, echo=TRUE}
+## Split data into supplements
+VC_tg <- tg[tg$supp == "VC",]
+OJ_tg <- tg[tg$supp == "OJ",]
+
+## Plot boxplots of TG data for each supp
+par(mfrow=c(1,2))
+boxplot(formula=len ~ dose, data=VC_tg,names=unique(VC_tg$dose), main="supp: VC", xlab="dose", ylab="len")
+boxplot(formula=len ~ dose, data=OJ_tg,names=unique(OJ_tg$dose), main="supp: OJ", xlab="dose", ylab="len")
+```
+
+## Summary of ToothGrowth Data
+We see a linear relationship between dose and len for both supplement groups (VC and OJ).   
+
+## Comparison of tooth growth by supp and dose
+
+### Confidence Intervals
+
+### Hypothesis Tests
+
+## Conclusions
+What assumptions did I need to use here?

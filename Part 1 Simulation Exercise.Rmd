@@ -36,7 +36,7 @@ for (i in 1:1000) {
 
 ```
 
-```{r histogram_of_mns, echo=TRUE}
+```{r histogram_of_mns, echo=TRUE, fig.width=5, fig.height=3}
 ## Plotting histogram with a line at the population mean
 hist(mns,breaks = 20)
 abline(v = 5,lwd=4, col = "blue")
@@ -71,10 +71,16 @@ pop_var
 mean(vars)
 ```
 
+```{r histogram_of_vars, echo=TRUE, fig.width=5, fig.height=3}
+## Plotting histogram with a line at the population variance
+hist(vars, breaks=15)
+abline(v = 25,lwd=4, col = "blue")
+```
+
 ## Distribution
 The distribution of the simulated averages of the exponential are approximately normal.  To show this, we overlay a normal curve using the dnorm() function (note that we have to change our y-axis from 'frequency' to 'density' in order to appropriately scale the y-axis).
 
-```{r distribution, echo=TRUE}
+```{r distribution, echo=TRUE, fig.width=5, fig.height=3}
 hist(mns, prob=TRUE, breaks=20)
 curve(dnorm(x, mean=mean(mns), sd=sd(mns)), add=TRUE, col="blue", lwd=4)
 ```
