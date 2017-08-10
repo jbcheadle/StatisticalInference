@@ -1,0 +1,72 @@
+---
+title: 'Part 1: Simulation Exercise'
+author: "John B Cheadle"
+date: "August 9, 2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+This report explores the exponential distribution in R, denoted by the function rexp(n, lambda) where lambda is the rate parameter and n is the number of observations, and compares it with the **Central Limit Theorem (CLT)**. Here we will compare the theoretical mean and variance of the exponential distribution to the simulated (sample) mean and variance.  Finally, we'll comment on the distribution of the population and determine whether it is approximately normal.   
+
+## Simulations
+Here we explore the distribution of the mean of 40 exponentials in 1000 simulations, where lambda (the rate parameter) is 0.2
+
+```{r simulations, echo=TRUE}
+lambda = 0.2
+n = 40
+sims = 1000
+mns = NULL
+for (i in 1:1000) {
+    mns = c(mns, mean(rexp(n,lambda)))
+}
+```
+
+```{r histogram_of_mns, echo=TRUE}
+hist(mns)
+```
+
+## Sample Mean vs. Theoretical Mean
+Here the rate parameter lambda, the rate parameter, as 0.2. The theoretical mean for the exponential distribution is 1/lambda, or 1/0.2 = **5.0**.  
+
+We previously performed 1000 simulations of the mean of 40 exponentials, and stored these in the variable mns.
+
+```{r means, echo=TRUE}
+## Theoretical Mean
+1/lambda
+
+## Mean of the averages of exponential distribution
+mean(mns)
+```
+
+As described in the CLT, we see that the mean of the averages of the simulated exponential distributions is centered around the theoretical mean of that distribution with our large sample size.
+
+
+## Sample Variance vs. Theoretical Variance
+Similar to
+
+```{r variances, echo=TRUE}
+## Population Variance
+sd = 1/lambda
+pop_var = sd^2
+pop_var
+
+## Sample Variance (sd^2) of the averages of exponential distribution
+sample_var = sd(mns)^2
+sample_var
+```
+
+## Distribution
+The distribution of the simulated averages of the exponential are approximately normal.  To show this, we overlay a normal curve using the dnorm() function (note that we have to change our y-axis from 'frequency' to 'density' in order to appropriately scale the y-axis).
+
+```{r distribution, echo=TRUE}
+hist(mns, prob=TRUE)
+curve(dnorm(x, mean=mean(mns), sd=sd(mns)), add=TRUE, col="blue", lwd=4)
+```
+
+The histogram and normal distribution are nearly congruous, showing clearly that our simulated exponential distribution is Gaussian in nature.
