@@ -3,8 +3,8 @@ title: 'Part 1: Simulation Exercise'
 author: "John B Cheadle"
 date: "August 9, 2017"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -15,20 +15,31 @@ knitr::opts_chunk$set(echo = TRUE)
 This report explores the exponential distribution in R, denoted by the function rexp(n, lambda) where lambda is the rate parameter and n is the number of observations, and compares it with the **Central Limit Theorem (CLT)**. Here we will compare the theoretical mean and variance of the exponential distribution to the simulated (sample) mean and variance.  Finally, we'll comment on the distribution of the population and determine whether it is approximately normal.   
 
 ## Simulations
-Here we explore the distribution of the mean of 40 exponentials in 1000 simulations, where lambda (the rate parameter) is 0.2
+Here we explore the distribution of the mean and variance of 40 exponentials in 1000 simulations, where lambda (the rate parameter) is 0.2
 
 ```{r simulations, echo=TRUE}
 lambda = 0.2
 n = 40
 sims = 1000
+
+## Distribution of the mean of 40 exponentials in 1000 simulations
 mns = NULL
 for (i in 1:1000) {
     mns = c(mns, mean(rexp(n,lambda)))
 }
+
+## Distribution of the variance of 40 exponentials in 1000 simulations
+vars = NULL
+for (i in 1:1000) {
+    vars = c(vars, var(rexp(n,lambda)))
+}
+
 ```
 
 ```{r histogram_of_mns, echo=TRUE}
-hist(mns)
+## Plotting histogram with a line at the population mean
+hist(mns,breaks = 20)
+abline(v = 5,lwd=4, col = "blue")
 ```
 
 ## Sample Mean vs. Theoretical Mean
@@ -48,7 +59,7 @@ As described in the CLT, we see that the mean of the averages of the simulated e
 
 
 ## Sample Variance vs. Theoretical Variance
-Similar to
+Similar to the means, with 1000 simulations of the variance of 40 exponentials, our sample variance is going to be concentrated around our population variance, defined as sd^2 or (1/lambda)^2 = **25.0**
 
 ```{r variances, echo=TRUE}
 ## Population Variance
@@ -57,15 +68,14 @@ pop_var = sd^2
 pop_var
 
 ## Sample Variance (sd^2) of the averages of exponential distribution
-sample_var = sd(mns)^2
-sample_var
+mean(vars)
 ```
 
 ## Distribution
 The distribution of the simulated averages of the exponential are approximately normal.  To show this, we overlay a normal curve using the dnorm() function (note that we have to change our y-axis from 'frequency' to 'density' in order to appropriately scale the y-axis).
 
 ```{r distribution, echo=TRUE}
-hist(mns, prob=TRUE)
+hist(mns, prob=TRUE, breaks=20)
 curve(dnorm(x, mean=mean(mns), sd=sd(mns)), add=TRUE, col="blue", lwd=4)
 ```
 
